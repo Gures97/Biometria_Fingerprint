@@ -48,7 +48,7 @@ namespace Fingerprint.Functions
                 Clean2s(bmp);
                 And3s(bmp);
             }
-            
+            Cleanup(bmp);
 
             return bmp;
         }
@@ -151,14 +151,29 @@ namespace Fingerprint.Functions
             {
                 for (int y = 0; y < bmp.bmp.Height; y++)
                 {
-                if (bmp.GetPixel(x, y).ToArgb() == Color.FromArgb(0, 0, 255).ToArgb())
-                {
-                    if (deletionTable.Contains(GetValueOfPixel(bmp, x, y))) { 
-                        bmp.SetPixel(x, y, Color.White);
-                        working = true;
+                    if (bmp.GetPixel(x, y).ToArgb() == Color.FromArgb(0, 0, 255).ToArgb())
+                    {
+                        if (deletionTable.Contains(GetValueOfPixel(bmp, x, y)))
+                        { 
+                            bmp.SetPixel(x, y, Color.White);
+                            working = true;
+                        }
+                        else
+                            bmp.SetPixel(x, y, Color.FromArgb(50, 50, 50));
                     }
-                else
-                    bmp.SetPixel(x, y, Color.FromArgb(50, 50, 50));
+                }
+            }
+        }
+
+        public static void Cleanup(FastBitmap bmp)
+        {
+            for (int x = 0; x < bmp.bmp.Width; x++)
+            {
+                for (int y = 0; y < bmp.bmp.Height; y++)
+                {
+                    if (bmp.GetPixel(x, y).ToArgb() != Color.White.ToArgb())
+                    {
+                        bmp.SetPixel(x, y, Color.Black);
                     }
                 }
             }

@@ -14,12 +14,14 @@ namespace Fingerprint.Optimalisation
         BitmapData bmpLock;
         public bool isLocked { get; private set; }
         byte* bmpLockP;
+        int colorCount;
 
         public unsafe FastBitmap(Bitmap bmp)
         {
             this.bmp = bmp;
 
             Lock();
+            colorCount = bmpLock.Stride / bmp.Width;
         }
 
         public unsafe void Lock()
@@ -51,9 +53,10 @@ namespace Fingerprint.Optimalisation
                 throw new Exception("Obraz nie jest zablokowany!");
             }
             int r, g, b;
-            b = bmpLockP[x * 4 + y * bmpLock.Stride];
-            g = bmpLockP[x * 4 + y * bmpLock.Stride + 1];
-            r = bmpLockP[x * 4 + y * bmpLock.Stride + 2];
+
+            b = bmpLockP[x * colorCount + y * bmpLock.Stride];
+            g = bmpLockP[x * colorCount + y * bmpLock.Stride + 1];
+            r = bmpLockP[x * colorCount + y * bmpLock.Stride + 2];
 
             return Color.FromArgb(r, g, b);
         }
@@ -68,9 +71,9 @@ namespace Fingerprint.Optimalisation
             {
                 throw new Exception("Obraz nie jest zablokowany!");
             }
-            bmpLockP[x * 4 + y * bmpLock.Stride] = c.B;
-            bmpLockP[x * 4 + y * bmpLock.Stride + 1] = c.G;
-            bmpLockP[x * 4 + y * bmpLock.Stride + 2] = c.R;
+            bmpLockP[x * colorCount + y * bmpLock.Stride] = c.B;
+            bmpLockP[x * colorCount + y * bmpLock.Stride + 1] = c.G;
+            bmpLockP[x * colorCount + y * bmpLock.Stride + 2] = c.R;
         }
 
         public Color[] Get3x3Mask(int x, int y)
