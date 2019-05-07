@@ -14,6 +14,7 @@
         <Button x:Name="minButton" Content="Wykrycie minucji" HorizontalAlignment="Left" Margin="339,353,0,0" VerticalAlignment="Top" Width="119" Click="MinButton_Click"/>
         <Button x:Name="filterButton" Content="Filtracja" HorizontalAlignment="Left" Margin="339,377,0,0" VerticalAlignment="Top" Width="119" Click="FilterButton_Click"/>
         <Button x:Name="loadButton" Content="Załaduj obraz" HorizontalAlignment="Left" Margin="339,10,0,0" VerticalAlignment="Top" Width="119" Click="LoadButton_Click"/>
-
+        <Button x:Name="saveButton" Content="Zapisz obraz" HorizontalAlignment="Left" Margin="339,34,0,0" VerticalAlignment="Top" Width="119" Click="Save_Click"/>
+        <Slider x:Name="thresholdSlider" HorizontalAlignment="Left" Margin="339,281,0,0" VerticalAlignment="Top" Width="119" Maximum="255" Value="128"/>
     </Grid>
 </Window>

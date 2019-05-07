@@ -72,5 +72,27 @@ namespace Fingerprint.Optimalisation
             bmpLockP[x * 4 + y * bmpLock.Stride + 1] = c.G;
             bmpLockP[x * 4 + y * bmpLock.Stride + 2] = c.R;
         }
+
+        public Color[] Get3x3Mask(int x, int y)
+        {
+            Color[] retVal = new Color[9];
+
+            for(int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    try
+                    {
+                        retVal[3 * i + j] = GetPixel(x + i - 1, y + j - 1);
+                    }
+                    catch
+                    {
+                        retVal[3*i+j] = Color.White;
+                    }
+                }
+            }
+
+            return retVal;
+        }
     }
 }

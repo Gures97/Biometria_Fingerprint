@@ -73,7 +73,7 @@ namespace Fingerprint
             {
                 fastInput.Lock();
             }
-            SetOutputSource(Binarisation.Run(fastInput).getBitmap());
+            SetOutputSource(Binarisation.Manual(fastInput,(int)thresholdSlider.Value).getBitmap());
             isInputBinarised = true;
         }
 
@@ -83,6 +83,9 @@ namespace Fingerprint
             {
                 fastInput.Lock();
             }
+            if (!isInputBinarised)
+                BinButton_Click(sender, e);
+            SetOutputSource(KMM.Run(fastOutput).getBitmap());
             isInputBinarised = true;
         }
 
@@ -99,6 +102,9 @@ namespace Fingerprint
 
         private void SetOutputSource(Bitmap bitmap)
         {
+            fastOutput = new FastBitmap(bitmap);
+            outputBMP = fastOutput.getBitmap();
+
             var memory = new MemoryStream();
             bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
             memory.Position = 0;
@@ -108,6 +114,22 @@ namespace Fingerprint
             bimage.CacheOption = BitmapCacheOption.OnLoad;
             bimage.EndInit();
             outputImage.Source = bimage;
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            
+            SaveFileDialog sfd = new SaveFileDialog();
+
+            sfd.Filter = "Pliki JPEG (*.jpg; *.jpeg)|*.jpg;*.jpeg|Pliki PNG (*.png)|*.png|Pliki BMP (*.bmp)|*.bmp|Pliki TIFF (*.tiff)|*.tiff";
+            sfd.DefaultExt = ".png";
+            sfd.RestoreDirectory = true;
+
+            Nullable<Boolean> result = sfd.ShowDialog();
+            if (result == true)
+            {
+                outputBMP.Save(sfd.FileName);
+            }
         }
     }
 }

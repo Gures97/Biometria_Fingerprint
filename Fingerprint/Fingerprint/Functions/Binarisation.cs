@@ -34,7 +34,7 @@ namespace Fingerprint.Functions
         }
 
         public static FastBitmap Run(FastBitmap bmp)
-        {
+        { 
             double max = 0; //maksymalna wartość 
             int threshold = 0; //ustalony prog
             var hist = new Histogram(bmp); //histogram
@@ -68,7 +68,7 @@ namespace Fingerprint.Functions
                     threshold = i;
                 }
             }
-
+            
             return Manual(bmp, threshold);
         }
     }
